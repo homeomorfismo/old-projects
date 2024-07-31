@@ -1,0 +1,32 @@
+\section{Ejercicios}
+
+\begin{enumerate}
+    \item Sea \(\Sigma=\{0,1,{\tt +},{\tt =}\}\) y \[{\rm Add} := \{x{\tt =}y{\tt +}z \ : \ x,y,z \text{ son binarios, y } x \text{ es la suma de } y,z\}.\]
+    Mostrar que \({\rm Add}\) no es regular.
+
+    \begin{proof}
+        Supongamos que \({\rm Add}\) es regular. Sea \(p\) su longitud de bombeo, y consideremos \[w:=1\cdots 1=0+1\cdots 1\in {\rm Add},\] donde el n\'umero uno se repite \(p-1\) veces.
+        Luego cualquier partici\'on de dicha palabra debe contener al medio el s\'imbolo \(=\). Podemos bien bombear, o ``desbombear'': el resuldado no pertenece a \({\rm Add}.\) 
+    \end{proof}
+    \item Sean \(x,y\) palabras, y \(L\) lenguaje. Diremos que \(x\) e \(y\) son \emph{distinguibles} por \(L\) si existe alg\'una palabra \(z\) tal que o bien \(xz\in L\), o bien \(yz \in L,\) pero no ambos. Caso contrario, diremos que son \emph{indistinguibles} si para toda palabra \(z\), \(xz\in L\) cuando \(yz\in L.\)
+    Si \(x\) e \(y\) son indistinguibles por \(L\), anotamos \(x\equiv_Ly.\) Mostrar que \(\equiv_L\) es relaci\'on de equivalencia.
+
+    \begin{proof}
+        %detalles?
+    \end{proof}
+    \item Para cada palabra \(w=w_1\cdots w_n,\) def\'inase \(w^{\mathcal{R}}:=w_n\cdots w_1.\) Para cada lenguaje \(A,\), ponemos \(A^\mathcal{R}:=\{w^\mathcal{R}\ :\ w\in A\}.\) Mostrar que \(A\) es regular si y solo si \(A^\mathcal{R}\) lo es.
+    \begin{proof}
+        Basta considerar la m\'aquina (determinista) que acepta \(A\) en abstracto \(M=(Q,\Sigma,\delta,q_0,F).\)
+        Definimos \(M'=(Q',\Sigma,\delta',q_0',F')\) no determinista de la siguiente manera:
+        \begin{itemize}
+            \item a\~nadimos un estado inicial nuevo \(Q':=Q\cup\{q_0'\}\);
+            \item el estado inicial anterior es aceptado \(F'=\{q_0\}\);
+            \item definimos \(\delta':Q' \times \Sigma \to \mathcal{P}(Q')\) por casos:
+            \begin{itemize}
+                \item \(\delta'(q_0',\epsilon)=F,\) o sea, nuestro estado inicial apunta a los antiguos estados aceptados;
+                \item \(\delta'(q',x)=\{q\},\) si y solo si \(\delta(q,x)=q',\) para \(q,q'\in Q\) y \(x\in\Sigma.\)
+            \end{itemize}
+        \end{itemize}
+        Verificamos que esta m\'aquina hace lo pedido.
+    \end{proof}
+\end{enumerate}

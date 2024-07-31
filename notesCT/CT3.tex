@@ -1,0 +1,93 @@
+\chapter[Lenguajes no contextuales]{Lenguajes no contextuales (o libres de contexto)}
+
+\section[Introducci\'on a las gram\'aticas]{Introducci\'on a las gram\'aticas libres de contexto}
+
+La idea de una gram\'atica es la de ser una colecci\'on de \emph{reglas de substituci\'on}, llamadas \emph{producciones.}
+Cada regla cosnta de un s\'imbolo y una cadena separada por una flecha.
+El s\'imbolo es llamado \emph{variable}, y las cadenas de s\'imbolos y variables son llamdos \emph{terminales.}
+Se designa una \emph{variable inicial,} usualmente es la primera que se expresa en una gram\'atica.
+Veamos un ejemplo de una gram\'atica \(G_1.\)
+
+\begin{ejemplo}
+    La gram\'atica \(G_1\) esta dada por 
+    \[\begin{array}{r l}
+        A \to & 0\ A\ 1 \\
+        A \to & B \\
+        B \to & \#
+    \end{array}\]
+\end{ejemplo}
+
+Uno puede describir un lenguaje aceptado por la gram\'atica mediante las siguientes reglas:
+\begin{enumerate}
+    \item Anotar la variable inicial;
+    \item Hallar/seleccionar una variable que este escrita, y reemplazarla segun una regla de la gram\'atica;
+    \item Repetir hasta que no queden variables escritas. 
+\end{enumerate}
+A esto se le llama una \emph{derivaci\'on}.
+Por ejemplo consideremos la palabra \(000\# 111.\)
+Su derivaci\'on corresponde \[A \Rightarrow 0A1 \Rightarrow 00A11 \Rightarrow 000A111 \Rightarrow 000B111 \Rightarrow 000\# 111\]
+
+\section{Gram\'aticas libres de contexto}
+
+Definimos formalmente  una gram\'atica libre de contexto.
+
+\begin{definicion}
+    Una gram\'atica libre de contexto es una cu\'adrupla \((V,\Sigma,R,S)\), donde
+    \begin{enumerate}
+        \item \(V\) es conjunto finito, llamado \emph{variables.}
+        \item \(\Sigma\) es conjunto finito disjunto de \(V\), llamado \emph{terminales;}
+        \item \(R\) es un conjunto finito de \emph{reglas,} compuestas de varaibles, y una cadena de variables y terminales, y
+        \item \(S \in V\) es la variable inicial.
+    \end{enumerate}
+\end{definicion}
+
+Para \(u,v,w\) cadenas de variables y terminales, y \(A \to w\) una regla, diremos que \(uAv\) \emph{conlleva a } \(uwv\), y lo denotamos por \[uAv \Rightarrow uwv.\]
+Anotamos \(u \Rrightarrow v \) si bien \(u=v\) o existen \(\{u_i\}_{i=0}^n\) con \(u=u_0,\) \(v=u_n\) y \(u_i \Rightarrow u_{i+1}\) para todo \(i \in [n-1].\)
+
+Podemos ver que \(A\Rrightarrow 000\# 111\), y para este efecto usaremos un \emph{\'arbol de an\'alisis} (parse tree).
+V\'ease la figura \ref{CT3-1}.
+
+\begin{figure}[h!b]
+    \centering
+    \includegraphics[scale=1]{CT3-1}
+    \caption{ Representaci\'on del \'arbol de an\'alisis de la gram\'atica \(G1\) }\label{CT3-1}
+\end{figure}
+
+Naturalmente, como ya hemos hecho antes, el lenguaje de las palabras derivadas de la gram\'atica \(G\) se denota por \(L(G)\).
+
+\subsection{Ambiguedad}
+
+Cuando una gram\'atica genera la misma palabra de distintas maneras, decimos que es \emph{ambigua.}
+Formalizamos esto introduciendo una modificaci\'on a las reglas.
+
+Para \(u,v,w\) cadenas de variables y terminales, anotamos \(u\to v | w \), si bien \(u\to v\), bien \(u \to w.\)
+Una derivaci\'on \emph{izquierda} es aquella que en cada derivaci\'on, la variable m\'as a la izquierda es la sustituida.
+
+\begin{definicion}
+    Una palabra \(w\) es derivada \emph{ambiguamente} en una gram\'atica de contexto libre \(G\) si tiene m\'as de una derivaci\'on izquierda. La gram\'atica \(G\) es ambigua si genera una palabra ambiguamente.
+\end{definicion}
+
+\begin{obs}
+    Notar que, pese a que podemos sustituir eventualmente una gram\'atica ambigua por una mejor, existen lenguajes \emph{inherentemente ambiguos.}
+    Un ejemplo de esto es el lenguaje sobre \(\Sigma=\{0,1,2\}\) dado por el conjunto \(\{0^i1^j2^k\ :\ i=j \text{ o bien } j=k\}\).
+\end{obs}
+
+\section{Forma normal de Chomsky}
+
+Es \'util trabajar con gram\'aticas relativamente sencillas de manejar. Una de ellas es la forma normal de Chomsky.
+
+\begin{definicion}
+    Decimos que una gram\'atica libre de contexto esta en su \emph{forma normal de Chomsky} si cada regla es de la forma \(A\to BC\) o \(A\to a\), donde \(a\) es cualquier terminal y \(A, B, C\) son variables, con \(B,C\) distintas de la variable inicial. En particular se permite la regla \(S\to\epsilon\) con \(S\) variable inicial.
+\end{definicion}
+
+\begin{teorema}
+    Toda gram\'atica libre de contexto es generada por una gram\'atica libre de contexto en su forma normal.
+\end{teorema}
+
+\section[Aut\'omatas de empuje]{Aut\'omatas de empuje (pushdown automata)}
+
+La principal ventaja de esta nueva m\'aquina es el hecho de tener una pila donde almacenar s\'imbolos (no necesariamente del alfabeto de entrada) que le permite proceder respecto a lo \'ultimo que se halle en la pila.
+Estas m\'aquinas tienen la misma capacidad que las gram\'aticas libres de contexto: a veces puede ser \'util definir la m\'aquina, mientras que en otros casos definir las reglas de una gram\'atica es m\'as prudente.
+
+La dotamos de dos operaciones b\'asicas, que son empujar o \emph{pushing}, y extraer o \emph{popping.}
+Tiene un funcionamiento del tipo LIFO (\emph{last in, first out}), lo que significa que lo \'ultimo que se saca es lo primero que se leer\'a.

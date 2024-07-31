@@ -1,0 +1,370 @@
+\part[Aut\'omatas]{Teor\'ia de aut\'omatas y lenguajes}
+
+%En esta parte describiremos de manera breve que son los lenguajes, algunos previos a la teoría de aut\'omatas.
+%M\'as a\'un, querremos abordar en paralelo lenguajes y gram\'aticas como distintos tipos de m\'aquinas que los reconozcan.
+
+%Añadir previos.
+
+\chapter{Lenguajes regulares}
+
+En este cap\'itulo estudiaremos los lenguajes regulares y las expresiones regulares.
+As\'i mismo estudiaremos distintos tipos de aut\'omatas, que a pesar de sus diferencias, tendr\'an una misma capacidad de resolver problemas.
+
+\section{\preg Qu\'e es un lenguaje?}
+
+Considerese un conjunto finito \( \Sigma \) no vac\'io, con m\'as de un elemento, llamado \emph{alfabeto.}
+Diremos que \(w\) es una palabra en \(\Sigma\) si es la concatenaci\'on finita de elementos de \(\Sigma\), esto es \[ w = w_1\cdots w_n,\] donde cada \(w_i\in \Sigma\) es un caracter.
+Anotamos al conjunto de palabras sobre \( \Sigma \) por \(\Sigma^*.\)
+Anotamos a la palabra sin caracteres por \( \epsilon.\)
+
+\begin{obs}
+    La notaci\'on \(\Sigma^*\) tomar\'a sentido m\'as adelante.
+\end{obs}
+
+\begin{definicion}
+    Un lenguaje \( L \) sobre \( \Sigma\) es un subconjunto de \(\Sigma^*\), i.e., \(L\subset \Sigma^*.\)
+\end{definicion}
+
+\begin{obs}
+    Notar que \(\emptyset\) y \(\{\epsilon\}\) son dos lenguajes distintos.
+\end{obs}
+
+Del teorema de Cantor (buscar referencia), es evidente el corolario siguiente.
+
+\begin{corolario}
+    El conjunto de lenguajes definidos sobre \(\Sigma\) es no contable.
+\end{corolario}
+
+%Añadir ejemplos
+
+\section{Aut\'omatas finitos}
+
+\subsection{Aut\'omata finito determinista}
+
+\begin{definicion}\label{CT1-D-DFA}
+    Un aut\'omata finito (determinista) \(M\) corresponde a una qu\'intupla \((Q,\Sigma,\delta,q_0,F)\), donde
+    \begin{itemize}
+        \item \(Q\) es un conjunto finito, llamado conjunto de \emph{estados} de la m\'aquina \(M\);
+        \item \(\Sigma\) es un conjunto finito, siendo el \emph{alfabeto} de la m\'aquina;
+        \item \(\delta: Q \times \Sigma \to Q \) es la funci\'on de \emph{transici\'on} de la m\'aquina;
+        \item \(q_0\in Q\) es llamado \emph{estado inicial} de la m\'aquina, y
+        \item \(F\subset Q\) es llamado conjunto de \emph{estados aceptados.}
+    \end{itemize}
+\end{definicion}
+
+Dado un aut\'omata \(M\) y una palabra \(w=w_1\cdots w_n\) sobre el alfabeto de la m\'aquina, diremos que \(M\) \emph{acepta} a \(w\) si existen \(r_0,\cdots,r_n\in Q\) verificando
+\begin{enumerate}
+    \item \(r_0=q_0;\)
+    \item \(\delta(r_i,w_{i+1})=r_{i+1}\), para todo \(i\in [n-1],\) y
+    \item \(r_n\in F.\)
+\end{enumerate}
+Anotamos al lenguaje formado por el conjunto de palabras aceptadas por \( M \) por \(L(M).\)
+Diremos que una m\'aquina \(M\) reconoce a un lenguaje \(A\) si tenemos la igualdad \(L(M)=A.\)
+
+\subsection{Ejemplos de aut\'omatas finitos deterministas}
+
+\subsubsection{Representaci\'on gr\'afica de un aut\'omata finito}
+
+Para representar un aut\'omata de manera gr\'afica, consideramos un grafo dirigido, en el cual se\~nalamos el estado inicial con una flecha sin v\'ertice de origen, y a los estados aceptados por una doble marca. M\'as a\'un, las flechas con caracteres representan las relaciones de los estados v\'ia la funci\'on de transici\'on.
+
+Cabe decir, que en otros libros (e.g. \cite{B:Bro1989} ), uno puede considerar una forma cerrada del aut\'omata, en el sentido que la m\'aquina pueda leer cualquier palabra. Esto puede realizarse al a\~nadir un estado adicional en el cual siempre rechazemos. No consideraremos tal detalle t\'ecnico.
+
+\subsubsection{Lenguajes elementales}
+
+\begin{ejemplo}
+    El lenguaje vac\'io es reconocido por un aut\'omata finito.
+    En efecto, considere la m\'aquina \(M_1\) provista de un estado inicial y sin  estados aceptados (ver figura \ref{CT1-1}).
+    Dicha m\'aquina no puede aceptar una palabra, por lo que \(L(M_1)=\emptyset.\)
+
+    \begin{figure}[h!b]
+        \centering
+		\includegraphics[scale=1]{CT1-1}
+		\caption{Representaci\'on del aut\'omata \(M_1.\)}\label{CT1-1}
+    \end{figure}
+\end{ejemplo}
+
+\begin{ejemplo}
+    El lenguaje \(\{\epsilon\}\) es aceptado por una sutil modificaci\'on de la m\'aquina \(M_1\): sea \(M_2\) una m\'aquina tal que est\'a provista de un estado inicial, que tambi\'en es un estado aceptado (ver figura \ref{CT1-2}).
+    Al lo ingresar nada, verificamos \(L(M_2)=\{\epsilon\}.\)
+
+    \begin{figure}[h!b]
+        \centering
+		\includegraphics[scale=1]{CT1-2}
+		\caption{Representaci\'on del aut\'omata \(M_2.\)}\label{CT1-2}
+    \end{figure}
+\end{ejemplo}
+
+\subsection{Otros ejemplos}
+
+Consideramos \(\Sigma=\{{\tt a},{\tt b}\}\).
+
+\begin{ejemplo}
+    El lenguaje de palabras terminadas en {\tt b} es aceptado por la m\'aquina \(M_3\): est\'a provista de un estado inicial, y de un estado aceptado; notamos en la figura \ref{CT1-3} que siempre que aparezca una letra {\tt b} en la palabra, alcanzaremos el estado aceptado.
+
+    \begin{figure}[h!b]
+        \centering
+		\includegraphics[scale=1]{CT1-3}
+		\caption{Representaci\'on del aut\'omata \(M_3.\)}\label{CT1-3}
+    \end{figure}
+\end{ejemplo}
+
+%Otro ejemplo
+
+\subsubsection{Representaci\'on por tablas de un aut\'omata finito}
+
+%Hay que hacer tablas de lo anterior, o algo distinto.
+
+\subsection{Aut\'omatas finitos no deterministas}
+
+A diferencia del modelo de m\'aquina anterior (ver \ref{CT1-D-DFA}), un aut\'omata no determinista, por instancia de ejecuci\'on tiene varias alternativas. Esto se traduce formalmente en cambiar la funci\'on de transici\'on.
+
+Adoptamos la notaci\'on del libro gu\'ia \(\Sigma_\epsilon:=\Sigma\cup \{\epsilon\},\) y \(\mathcal{P}(Q)\) es el conjunto potencia de \(Q.\) 
+
+\begin{definicion}\label{CT1-D-NFA}
+    Un aut\'omata finito no determinista \(M\) corresponde a una qu\'intupla \((Q,\Sigma,\delta,q_0,F)\), donde
+    \begin{itemize}
+        \item \(Q\) es un conjunto finito, llamado conjunto de \emph{estados} de la m\'aquina \(M\);
+        \item \(\Sigma\) es un conjunto finito, siendo el \emph{alfabeto} de la m\'aquina;
+        \item \(\delta: Q \times \Sigma_\epsilon \to \mathcal{P}(Q) \) es la funci\'on de \emph{transici\'on} de la m\'aquina;
+        \item \(q_0\in Q\) es llamado \emph{estado inicial} de la m\'aquina, y
+        \item \(F\subset Q\) es llamado conjunto de \emph{estados aceptados.}
+    \end{itemize}
+\end{definicion}
+
+Dado un aut\'omata no determinista \(M\) y una palabra \(w=w_1\cdots w_n\) sobre el alfabeto de la m\'aquina, diremos que \(M\) \emph{acepta} a \(w\) si existen \(r_0,\cdots,r_n\in Q\) verificando
+\begin{enumerate}
+    \item \(r_0=q_0;\)
+    \item \(r_{i+1}\in \delta(r_i,w_{i+1})\), para todo \(i\in [n-1],\) y
+    \item \(r_n\in F.\)
+\end{enumerate}
+Anotamos al lenguaje formado por el conjunto de palabras aceptadas por \( M \) por \(L(M).\)
+Diremos que una m\'aquina \(M\) reconoce a un lenguaje \(A\) si tenemos la igualdad \(L(M)=A.\)
+
+\begin{obs}
+    Evidentemente, cada aut\'omata determinista define un aut\'omata no determinista.
+\end{obs}
+
+\section{Equivalencia de modelos}
+
+Mostraremos que hay forma de recorrer los estados de una m\'aquina no determinista para simular la computaci\'on de manera determinista. Diremos que dos m\'aquinas son equivalentes si aceptan el mismo lenguaje.
+
+\begin{lema}
+    Todo aut\'omata no determinista tiene un equivalente determinista.
+\end{lema}
+
+\begin{proof}
+    Sea \(N=(Q,\Sigma,\delta,q_0,F)\) un aut\'omata no determinista reconociendo a un lenguaje \(A.\)
+    Separamos la demostraci\'on en dos partes.
+    En la primera asumimos que \(\delta: Q \times \Sigma \to \mathcal{P}(Q),\) es decir, no hay flechas etiquetadas con \(\epsilon.\)
+
+    Construimos \(M=(Q',\Sigma',\delta',q_0',F')\) de la siguiente manera:
+    \begin{enumerate}
+        \item \(Q'=\mathcal{P}(Q).\)
+        \item Dado un (conjunto de) estado(s) \(R \subset Q\) y \(a\in\Sigma\), definimos \[\delta'(R,a):=\bigcup_{r\in R}\delta(r,a);\]
+        \item \(q_0'=\{q_0\},\) y
+        \item \(F':=\{R\subset Q \ : \ F\cap R \neq \emptyset\}.\)
+    \end{enumerate}
+    Esta m\'aquina satisface lo necesario para la primera parte. Para la segunda, consideraremos una aplicaci\'on especial. Queremos caracterizar los estados alcanzables por flechas tipo \(\epsilon.\) Para este prop\'osito, dado \(R \subset Q\), definimos \[E(R):=\{q\in Q \ : \ \exists \{r_i\}_{i=0}^n \text{ tal que } r_0\in R,\ r_n=q,\ r_{i+1}\in\delta(r_i,\epsilon), \forall i\in [n-1] \},\] donde la secuencia de estado puede ser vac\'ia.
+    Ponemos la funci\'on de transici\'on por \[\delta'(R,a):=\bigcup_{r\in R}E(\delta(r,a)).\] Adicionalmente, queda cambiar las vertientes del estado inicial, provocadas por las flechas \(\epsilon\): ponemos \(q_0'=E(\{q_0\}).\)
+
+    Podemos verificar que \(L(M)=L(N).\)
+\end{proof}
+
+\section{Operaciones regulares}
+
+La idea de esta secci\'ones construir lenguajes a partir de otros m\'as sencillos.
+
+\subsection{Lenguajes regulares}\label{CT1-SS-RegLang}
+
+En otra literatura (e.g. \cite{B:Bro1989}), un lengauje reguar es aquel que puede ser formado por \emph{expresiones regulares,} donde una expresi\'on regular no es nada m\'as que un lenguaje construido de la siguiente manera:
+
+\begin{enumerate}
+    \item El lenguaje vac\'io es regular;
+    \item cada lenguaje singulete es regular, o sea, cada \(\{a\}\) es regular para cada \(a\in\Sigma;\) y
+    \item la uni\'on, la concatenaci\'on y la cerradura de Kleene de lenguajes regulares es regular.
+\end{enumerate}
+
+\begin{obs}
+    Notamos que los dos primeros \'itemes son realizables por un aut\'omata.
+\end{obs}
+
+Detallaremos las operaciones del tercer \'item y sus relaciones con nuestros aut\'omatas. Consideramos \(A\) y \(B\) dos lenguajes sobre \(\Sigma\).
+
+\subsubsection{Uni\'on}
+
+El lenguaje uni\'on es simplemente la uni\'on conjuntista de dichos lenguajes, o sea \(A\cup B.\) Es evidente que si existen m\'aquinas reconociendo ambos \(A\) y \(B\), podemos construir una m\'aquina reconociendo \(A\cup B.\) 
+Podemos dar dosdemostraciones de lo anterior: una determinista y una no determinista.
+
+\begin{proposicion}
+    La clase de lenguajes reconocidos por aut\'omatas es cerrada por uni\'on.
+\end{proposicion}
+
+\begin{proof}
+    La demostraci\'on (quiz\'a m\'as) intuitiva nos dice que simulemos en ambas m\'aquinas.
+    En tal caso dados aut\'omatas \(M_1=(Q_1,\Sigma,\delta_1,q_0^1,F_1)\) y \(M_2=(Q_2,\Sigma,\delta_2,q_0^2,F_2)\), construimos \(M=(Q,\Sigma,\delta,q_0,F)\) de la siguiente mannera:
+    \begin{itemize}
+        \item \(Q:=Q_1 \times Q_2\);
+        \item \(\Sigma\) permanece igual, sin embargo, de ser m\'aquinas definidas en lenguajes \(\Sigma_1 \neq \Sigma_2\),  consideramos \(\Sigma:=\Sigma_1\cup \Sigma_2;\)
+        \item para cada par \((r_1,r_2)\in Q\) y cada \(a\in \Sigma\), ponemos \[\delta((r_1,r_2),a):=(\delta_1(r_1,a),\delta_2(r_2,a));\]
+        \item \(q_0:=(q_0^1,q_0^2)\); y
+        \item \(F:= (F_1\times Q_2) \cup (Q_1\times F_2.)\)
+    \end{itemize}
+
+    Queda verificar su correctitud.
+\end{proof}
+
+\begin{proof}
+    Podemos hacer uso del no determinismo, para convenir que al construir la m\'aquina \(M\), simplemente ignoramos los estados iniciales de las m\'aquinas \(M_1\) y \(M_2\), a\~nadimos un estado inicial nuevo que conecta a los anteriores mediante una \(\epsilon\) flecha.
+    Queda verificar su correctitud.
+\end{proof}
+
+\subsubsection{Concatenaci\'on}
+
+La concatenaci\'on es simplemente considerar un nuevo objeto formado por unir dos piezas consecutivas. En t\'erminos m\'as formales, dadas \(w=w_1\cdots w_n\) y \(v=v_1\cdots v_m\) palabras sobre \( \Sigma\), su concatenaci\'on corresponde a la palabra \[w\circ v:= wv:=w_1\cdots w_n v_1 \cdots v_m.\]
+Definimos la concatenaci\'on de dos lenguajes por \[A\circ B := \{wv\ : \ w\in A, \ v\in B\}.\]
+
+\begin{proposicion}
+    La clase de lenguajes reconocidos por aut\'omatas es cerrada por concatenaci\'on.
+\end{proposicion}
+
+\begin{proof}
+    Considerar dos m\'aquinas \(M_1\) y \(M_2\). Construimos \(M\) no determinista de la siguiente manera: los estados apectados de \(M_1\) tendr\'an flechas \(\epsilon\) apuntando al estado inicial de \(M_2\); ignoramos sus condiciones de estados destacados, esto es, conservamos por estado inicial \'unicamente al estado inicial de \(M_1\) y por estados finales \'unicamente a los de \(M_2.\) Queda verificar su correctitud.
+\end{proof}
+
+\subsubsection{Cerradura de Kleene}
+
+La operaci\'on estrella de Kleene de un lenguaje es la uni\'on de todas las \(n\)-concatenaciones del lenguaje, o sea, \[A^*:=\bigcup_{n\in \N_0} \circ^n A,\] donde definimos de manera recursiva \(\circ^0 A := \{\epsilon\}\) y \(\circ^{n+1}A:=(\circ^n A)\circ A.\)
+
+\begin{proposicion}
+    La clase de lenguajes reconocidos por aut\'omatas es cerrada por la operaci\'on estrella de Kleene. 
+\end{proposicion}
+
+\begin{proof}
+    La idea es que la m\'aquina sea capaz de volver a ejecutarse una vez reconozca una palabra.
+    Esto se puede lograr f\'acilmente a\~nadiendo flechas \(\epsilon\) al estado inicial.
+    \preg C\'omo solucionamos el aceptar \(\epsilon\)?
+    Definiendo un nuevo estado inicial aceptado que se conecta al anterior (no necesariamente aceptado) por medio de una flecha \(\epsilon.\) 
+\end{proof}
+
+\subsection{Equivalencia con aut\'omatas}
+
+Hemos notado un comportamiento similar, lo que nos sugiere un comportamiento id\'entico.
+Mostraremos que es as\'i.
+
+\begin{lema}
+    Un lenguaje regular es reconocido por un aut\'omata.
+\end{lema}
+
+\begin{proof}
+    Ver Secci\'on \ref{CT1-SS-RegLang}.
+\end{proof}
+
+Para el converso requeriremos introducir un formato auxiliar de aut\'omata, llamado aut\'omata finito no determinista generalizado. Su principal diferencia es que las flechas son expresiones regulares, sin embargo requeriremos otras condiciones t\'ecnicas:
+\begin{itemize}
+    \item El estado inicial alcanza a los dem\'as estados, pero no es alcanzado por ning\'un otro;
+    \item solo hay un estado apectado, distinto al inicial, el cual es alcanzado por todos los estado, pero no alcanza a ning\'un estado;
+    \item los dem\'as estados son alcanzados por todos los dem\'as estados, incluy\'endose.
+\end{itemize}
+
+Lo definimos formalmente.
+
+\begin{definicion}\label{CT1-D-GNFA}
+    Un aut\'omata finito generalizado \(M\) corresponde a una qu\'intupla \((Q,\Sigma,\delta,q_0,q_{\rm final})\), donde
+    \begin{itemize}
+        \item \(Q\) es un conjunto finito, llamado conjunto de \emph{estados} de la m\'aquina \(M\);
+        \item \(\Sigma\) es un conjunto finito, siendo el \emph{alfabeto} de la m\'aquina;
+        \item \(\delta: Q \setminus \{q_{\rm final}\} \times Q \setminus \{q_0\} \to \mathcal{R} \) es la funci\'on de \emph{transici\'on} de la m\'aquina, donde \(\mathcal{R}\) es el conjunto de expresiones regulares sobre \(\Sigma\);
+        \item \(q_0\in Q\) es llamado \emph{estado inicial} de la m\'aquina, y
+        \item \(q_{\rm final}\) es llamado \emph{estado aceptado} de la m\'aquina.
+    \end{itemize}
+\end{definicion}
+
+Decimos que un aut\'omata generalizado acepta a una palabra \(w=w_1\cdots w_n,\) con \(w_i\in\Sigma^*,\) si existe sucesi\'on de estados \(r_0,\cdots,r_k\in Q\) verificando:
+\begin{enumerate}
+    \item \(r_0=q_0;\)
+    \item \(r_k=q_{\rm final}\), y
+    \item para cada \(i\in [k-1],\) \(w_i\in \delta(r_{i},r_{i+1}).\) 
+\end{enumerate}
+
+Convertir un au\'omata determinista en uno generalizado es sencillo: basta agregar un nuevo estado inicial y conectarlo por una flecha \(\epsilon\) apuntando al viejo estado inicial, y a\~nadir un nuevo estado aceptado, alcanzado por los viejos estados aceptados por flechas \(\epsilon\).
+
+Notamos que si un aut\'omata generalizado tiene dos estados, dicha flecha tendr\'a una expresi\'on regular. Mostraremos como eliminar estados en un aut\'omata generalizado.
+La idea es la siguiente: al seleccionar un estado \(q_k\) a eliminar (que no sea inicial o final), podemos tomar dos estados arbitrarios \(q_i,\ q_j\); por la definici\'on del aut\'omata, hay dos formas de llegar a \(q_j\) desde \(q_i\), bien recorremos la expresi\'on \(R_4\) entre \(q_i\) y \(q_j\), bien recorremos la expresi\'on \(R_1\) entre \(q_i\) y \(q_k\), hacemos loop en la expresi\'on \(R_2\) y despu\'es recorremos la expresi\'on \(R_3\) entre \(q_k\) y \(q_j\). 
+
+\begin{figure}[h!b]
+    \centering
+    \includegraphics[scale=1]{CT1-4}
+    \caption{Representaci\'on de la reducci\'on de aut\'omatas generalizados.}\label{CT1-4}
+\end{figure}
+
+En otras palabras, la expresi\'on \( (R_1\circ R_2^* \circ R_3) \cup R_4\) permite sintetizar dicha expresi\'on, lo que nos da la nueva flecha (Ver figura \ref{CT1-4}).
+
+Cerraremos estas ideas en un lema.
+
+\begin{lema}
+    Todo aut\'omata tiene una expresi\'on regular que reconoce el mismo lenguaje.
+\end{lema}
+
+\begin{proof}
+    Dado un aut\'omata \(M\), lo podemos asumir (convertir) en su f\'orma generalizada. Definimos un algoritmo para convertir un aut\'omata generalizado en una expresi\'on regular.
+
+    \begin{code}
+        \begin{minted}[escapeinside=||,mathescape=true,frame=lines,breaklines]{text}
+        Input: Un autómata generalizado |\(M\)|
+        Output: Una expresión regular |\(R\)|
+        
+        Convert|\((M)\)|
+        Sea |\(k\)| el número de estados de |\(M\)|.
+        Si |\(k=2\)|, entonces:
+            (como la máquina debe tener dos estados) retornar la única etiqueta |\(R\).|
+        Si |\(k>2\)|, entonces:
+            Seleccionar un estado |\(q_k\in Q\setminus\{q_0,q_{\rm final}\}\)|;
+            Construir |\(M'=(Q',\Sigma,\delta',q_0,q_{\rm final})\)|, donde
+                |\(Q':=Q\setminus \{q_k\}\)|, y 
+                para todos |\(q_i\in Q'\setminus q_{\rm final}\)| y |\(q_j\in Q'\setminus q_0\)| se define
+                    |\(\delta'(q_i,q_j):=(\delta(q_i,q_k)\circ \delta(q_k,q_k)^* \circ \delta(q_k,q_j))\cup \delta(q_i,q_j)\)|.
+            Calcular Convert|\((M')\)|, y devolver su valor.        
+        \end{minted}
+        \caption{Algoritmo {\tt Convert}\((M)\).}
+    \end{code}
+
+    Notemos que inductivamente podemos probar la equivalencia de \(M\) y la modificaci\'on \(M'.\)
+    Esto nos permite concluir que {\tt Convert}\((M)\) y \(M\) reconocen el mismo lenguaje.
+\end{proof}
+
+Cerramos todo lo visto mediante el siguiente teorema.
+
+\begin{teorema}
+    La clase de lenguajes regulares es equivalente a la clase de lenguajes reconocidos por aut\'omatas (no) deterministas (generalizados).
+\end{teorema}
+
+\section{Lenguajes no regulares}
+
+Sucede que cierta clase de problemas de conteo de caracteres es complicado para este modelo de m\'aquina. Considerarndo \(\Sigma=\{0,1\}\), vemos que para que un aut\'omata reconozca \(B=\{0^n1^n\ :\ n\in \N_0\}\) debe llevar la cuenta de ceros, lo que requiere considerar dicho caso, cosa impedida por los finitos estados.
+
+\subsection{Lema de bombeo para lenguajes regulares}
+
+El principio de palomar aplicado a palabras suficientemente largas, obligar\'a a la m\'aquina a bombear un tramo de estas. Anotamos a la longitud de una palabra \(w\in \Sigma^*\) por \(|w|\in\N_0.\)
+
+\begin{teorema}
+    Si \(A\) es lenguaje regular, existe \(p\) n\'umero natural suficientemente grande, llamado \emph{longitud de bombeo,} tal que si \(w\in A\), \(|w|\geq p\), entonces \(w\) se divide en subpalabras \(w=xyz\) tales que 
+    \begin{enumerate}
+        \item para cada \(i\in \N_0\), \(xy^iz\in A;\)
+        \item \(|y|>0,\) y 
+        \item \(|xy|\leq p.\)
+    \end{enumerate}
+\end{teorema}
+
+\begin{proof}
+    Sea \(M\) aut\'omata reconociendo al lenguaje \(A,\) y \(p\) la cantidad de estados de \(M.\)
+    Sea \(w=w_1\cdots w_n\) palabra, con \(n\geq p.\)
+    Sean \(r_0, \cdots, r_n\) secuencia de estados de \(M\) que aparecen en la computaci\'on de \(w.\)
+
+    Como \(n+1\geq p+1 > p,\) por principio del palomar, existen dos estados repetidos en los primeros \(p+1\) estados de dicha secuencia: ponemos por \(r_j\) al primero y por \(r_l\) al segundo. Tenemos que \(l\leq p+1.\)
+
+    Ponemos \(x=w_1\cdots w_j\), \(y=w_{j+1}\cdots w_l\) y \(z=w_{l+1}\cdots w_n\). Estas palabras verifican las propiedades pedidas.
+\end{proof}
+
+\begin{obs}
+    A veces, sacar trozos de palabras es \'util para mostrar la irregularidad de ciertos lenguajes.
+\end{obs}

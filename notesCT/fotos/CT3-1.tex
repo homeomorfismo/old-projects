@@ -1,0 +1,29 @@
+\documentclass[tikz, border=2mm]{standalone}
+
+%\usepackage[english]{babel}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+%\usepackage{pgfplots}
+
+\usepackage[edges]{forest}
+
+%\pgfplotsset{compat=1.12}
+\begin{document}
+    \begin{forest}
+        [A
+          [0,tier=word]
+          [A
+            [0,tier=word]
+            [A
+                [0,tier=word]
+                [A[B[\(\#\),tier=word]]]
+                [1,tier=word]
+            ]
+            [1,tier=word]
+          ]
+          [1,tier=word]
+        ]
+    \end{forest}
+\end{document}

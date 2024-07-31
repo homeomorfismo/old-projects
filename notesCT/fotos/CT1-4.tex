@@ -1,0 +1,35 @@
+\documentclass[tikz, border=2mm]{standalone}
+
+%\usepackage[english]{babel}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+%\usepackage{pgfplots}
+
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{calc}
+\usetikzlibrary{cd}
+\usetikzlibrary{automata, positioning, arrows}
+
+\tikzset{
+    ->, % makes the edges directed
+    >=stealth', % makes the arrow heads bold
+    node distance=3cm, % specifies the minimum distance between two nodes. Change if necessary.
+    every state/.style={thick, fill=gray!10}, % sets the properties for each 'state' node
+    initial text=$ $, % sets the text that appears on the start arrow
+}
+
+%\pgfplotsset{compat=1.12}
+\begin{document}
+\begin{tikzpicture}
+    \node[state](qi){\(q_i\)};
+    \node[state, above right of=qi](qk){\(q_k\)};
+    \node[state, below right of=qk](qj){\(q_j\)};
+
+    \draw (qi) edge[bend right, below] node{\(R_4\)} (qj);
+    \draw (qi) edge[bend left, left ] node{\(R_1\)} (qk);
+    \draw (qk) edge[bend left, right] node{\(R_3\)} (qj);
+    \draw (qk) edge[loop above] node{\(R_2\)} (qk);
+\end{tikzpicture}
+\end{document}
