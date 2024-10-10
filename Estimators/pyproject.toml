@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ngs-ee"
+version = "0.0.1"
+authors = [
+  { name="Gabriel Pinochet-Soto", email="gpin2@pdx.edu" },
+]
+description = "Implementation of error estimators in NGSolve"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
+    "Operating System :: OS Independent",
+]
+license = {file = "LICENSE.md", name = "Mozilla Public License 2.0 (MPL 2.0)"}
+keywords = ["symbolic computation", "mathematics", "algebra", "calculus"]
+
+[project.urls]
+Homepage = "https://web.pdx.edu/~gpin2/"
+# Issues = "https://github.com/pypa/sampleproject/issues"
